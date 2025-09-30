@@ -6,3 +6,4 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'monApp.db')
 SECRET_KEY = "2lzUl{$*D6#`8uXqlU."
 ABOUT = "Bienvenue sur la page à propos de Flask !"
 CONTACT = "Coordonnées de contact : "
+BOOTSTRAP_SERVE_LOCAL = True
