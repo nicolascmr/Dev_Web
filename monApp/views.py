@@ -1,7 +1,8 @@
 from .app import app
 from flask import render_template, request
 from monApp.models import Auteur,Livre
-from monApp.forms import FormAuteur, FormLivre
+from monApp.forms import FormAuteur, FormLivre, LoginForm
+from flask_login import login_user, logout_user
 
 @app.route('/')
 @app.route('/index/')
@@ -119,6 +120,22 @@ def viewLivre(idL):
     unLivre = Livre.query.get(idL)
     unForm = FormLivre (idL=unLivre.idL , Prix=unLivre.Prix)
     return render_template("livre_view.html",selectedLivre=unLivre, viewForm=unForm)
+
+@app.route ("/login/", methods =("GET","POST" ,))
+def login():
+    unForm = LoginForm()
+    unUser=None
+    if unForm.validate_on_submit():
+        unUser = unForm.get_authenticated_user()
+        if unUser:
+            login_user(unUser)
+            return redirect (url_for("index",name=unUser.Login))
+    return render_template ("login.html",form=unForm)
+
+@app.route ("/logout/")
+def logout():
+    logout_user()
+    return redirect ( url_for ('index'))
 
 if __name__ == "__main__":
     app.run()
